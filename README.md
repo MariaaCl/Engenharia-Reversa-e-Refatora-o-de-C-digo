@@ -1,57 +1,170 @@
+Engenharia Reversa e Refatoração de Código
 
-##  Parte 01 – Reverse Engineering
+ Sobre o Projeto
 
-Nessa primeira parte, eu analisei o código para entender o que ele faz, já que ele não tinha uma documentação clara.
-
-Percebi que a classe `PedidoProcessor` tem como principal função processar pedidos. Ela faz várias coisas ao mesmo tempo, como validar dados, calcular valores (subtotal, desconto, frete e juros), aplicar regras de negócio e gerar mensagens de retorno.
-
-Também consegui identificar várias regras de negócio dentro do código, por exemplo:
-
-* O desconto varia de acordo com o tipo de cliente
-* O frete muda dependendo do país e do peso
-* Existem cupons que alteram o valor do pedido
-* O pagamento no cartão pode gerar juros
-* Alguns cenários geram alertas, como pedidos muito altos ou suspeitos
-
-Além disso, analisei os parâmetros do método principal e adicionei comentários no código explicando o que cada um representa.
+Este projeto tem como objetivo realizar a análise, redocumentação e reestruturação de um código legado responsável pelo processamento de pedidos.
 
 ---
 
-##  Parte 02 – Redocumentação
+ Parte 01 – Reverse Engineering
 
-Nessa etapa, eu foquei em deixar o código mais fácil de entender.
+### ✔ Responsabilidade da Classe
 
-Fiz melhorias como:
+A classe `PedidoProcessor` é responsável por:
 
-* Troquei nomes de variáveis por nomes mais claros
-* Organizei melhor o código em partes (validação, cálculo, pagamento)
-* Adicionei comentários explicando as regras de negócio
-
-Também criei um diagrama de classes simples para representar melhor as entidades envolvidas, como pedido, cliente e itens.
-
----
-
-##  Parte 03 – Reestruturação
-
-Na última parte, eu analisei a estrutura do código e percebi que a classe estava fazendo muitas coisas ao mesmo tempo.
-
-Isso não é uma boa prática, porque dificulta a manutenção e o entendimento do sistema.
-
-Então, propus uma melhoria separando as responsabilidades em diferentes classes, como:
-
-* PedidoService
-* FreteService
-* DescontoService
-* PagamentoService
-* NotificacaoService
-* LogService
-
-Com isso, o código fica mais organizado, mais fácil de manter e mais próximo das boas práticas de desenvolvimento, como Clean Code e o princípio da responsabilidade única.
+* Processar pedidos
+* Validar dados do cliente
+* Calcular valores (subtotal, desconto, frete, juros)
+* Aplicar regras de negócio
+* Gerar alertas
+* Enviar notificações
+* Registrar logs
 
 ---
 
-##  Conclusão
+### ✔ Regras de Negócio Identificadas
 
-Com essa atividade, consegui entender melhor como analisar um código existente, melhorar sua documentação e propor melhorias estruturais. Isso é muito importante na Engenharia de Software, principalmente quando lidamos com sistemas já existentes.
-Eu dividi o trabalho em três partes: primeiro eu analisei o código para entender como ele funciona, depois melhorei a organização e os comentários para facilitar o entendimento, e por fim propus uma nova estrutura separando as responsabilidades, deixando o código mais organizado e seguindo boas práticas.
+* Cálculo de subtotal com base nos itens
+* Adição de taxas por categoria (ALIMENTO, IMPORTADO)
+* Desconto baseado no tipo de cliente:
 
+  * VIP: 15%
+  * PREMIUM: 10%
+  * NORMAL: 2%
+  * NOVO: sem desconto
+* Aplicação de cupons:
+
+  * DESC10, DESC20, FRETEGRATIS, VIP50
+* Cálculo de frete:
+
+  * Nacional (BR) por peso
+  * Internacional com valores maiores
+  * Taxa adicional para entrega expressa
+* Cálculo de juros no cartão:
+
+  * Até 6x: 2%
+  * Acima de 6x: 5%
+* Regras de pagamento:
+
+  * Boleto: desconto fixo
+  * PIX: desconto maior
+* Validações:
+
+  * Pedido válido
+  * Cliente não bloqueado
+  * Itens válidos
+  * Email e endereço
+* Regras adicionais:
+
+  * Total nunca pode ser negativo
+  * Alerta para pedidos acima de 1000
+  * Validação extra para pedidos acima de 5000 para clientes novos
+  * Limite de boleto acima de 3000
+  * Alerta para pedidos internacionais abaixo de 100
+
+---
+
+### ✔ Significado dos Parâmetros
+
+* `pedidoId`: Identificador do pedido
+* `nomeCliente`: Nome do cliente
+* `emailCliente`: Email do cliente
+* `tipoCliente`: Categoria do cliente (VIP, PREMIUM, etc.)
+* `itens`: Lista de produtos do pedido
+* `cupom`: Código promocional
+* `formaPagamento`: Tipo de pagamento
+* `enderecoEntrega`: Local de entrega
+* `pesoTotal`: Peso total para cálculo de frete
+* `entregaExpressa`: Indica frete rápido
+* `clienteBloqueado`: Status do cliente
+* `enviarEmail`: Define envio de notificação
+* `salvarLog`: Define registro de logs
+* `pais`: Define se é nacional ou internacional
+* `parcelas`: Número de parcelas
+
+---
+
+## 🧾 Parte 02 – Redocumentação
+
+### ✔ Melhorias realizadas
+
+* Renomeação de variáveis para nomes descritivos
+* Organização do código por blocos (validação, cálculo, pagamento)
+* Substituição de estruturas menos legíveis
+* Adição de comentários explicativos
+* Separação lógica das regras de negócio
+
+---
+
+### 📊 Diagrama de Classes (Conceitual)
+
+```
+Pedido
+- id
+- cliente
+- itens
+- total
+
+Cliente
+- nome
+- email
+- tipo
+
+ItemPedido
+- nome
+- categoria
+- quantidade
+- preco
+
+Pagamento
+- tipo
+- parcelas
+
+Frete
+- tipo
+- valor
+```
+
+---
+
+## 🚀 Parte 03 – Reestruturação
+
+### ❌ Problemas encontrados
+
+* Classe com muitas responsabilidades
+* Alto acoplamento
+* Difícil manutenção
+* Código pouco escalável
+
+---
+
+### ✅ Solução Proposta
+
+Separação em múltiplos serviços:
+
+```
+PedidoService
+DescontoService
+FreteService
+PagamentoService
+NotificacaoService
+LogService
+```
+
+---
+
+### 💡 Benefícios da Reestruturação
+
+* Código mais organizado
+* Fácil manutenção
+* Melhor legibilidade
+* Possibilidade de testes unitários
+* Escalabilidade
+
+---
+
+## 🏆 Conclusão
+
+Foi realizada a refatoração aplicando princípios de Clean Code e SOLID, principalmente o princípio da responsabilidade única (SRP), visando melhorar a organização, clareza e manutenção do sistema.
+
+---
