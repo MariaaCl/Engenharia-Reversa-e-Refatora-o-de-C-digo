@@ -1,4 +1,3 @@
-# 🔎 Explicação das Etapas da Atividade
 
 ##  Parte 01 – Reverse Engineering
 
@@ -54,3 +53,5 @@ Com isso, o código fica mais organizado, mais fácil de manter e mais próximo 
 ##  Conclusão
 
 Com essa atividade, consegui entender melhor como analisar um código existente, melhorar sua documentação e propor melhorias estruturais. Isso é muito importante na Engenharia de Software, principalmente quando lidamos com sistemas já existentes.
+Eu dividi o trabalho em três partes: primeiro eu analisei o código para entender como ele funciona, depois melhorei a organização e os comentários para facilitar o entendimento, e por fim propus uma nova estrutura separando as responsabilidades, deixando o código mais organizado e seguindo boas práticas.
+
