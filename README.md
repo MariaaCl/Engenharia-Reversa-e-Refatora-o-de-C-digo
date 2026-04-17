@@ -1,6 +1,5 @@
 Engenharia Reversa e Refatoração de Código
 
- Sobre o Projeto
 
 Este projeto tem como objetivo realizar a análise, redocumentação e reestruturação de um código legado responsável pelo processamento de pedidos.
 
