@@ -126,9 +126,9 @@ Frete
 
 ---
 
-## 🚀 Parte 03 – Reestruturação
+##  Parte 03 – Reestruturação
 
-### ❌ Problemas encontrados
+###  Problemas encontrados
 
 * Classe com muitas responsabilidades
 * Alto acoplamento
@@ -137,7 +137,7 @@ Frete
 
 ---
 
-### ✅ Solução Proposta
+###  Solução Proposta
 
 Separação em múltiplos serviços:
 
@@ -152,7 +152,7 @@ LogService
 
 ---
 
-### 💡 Benefícios da Reestruturação
+### Benefícios da Reestruturação
 
 * Código mais organizado
 * Fácil manutenção
@@ -162,8 +162,7 @@ LogService
 
 ---
 
-## 🏆 Conclusão
+##  Conclusão
 
-Foi realizada a refatoração aplicando princípios de Clean Code e SOLID, principalmente o princípio da responsabilidade única (SRP), visando melhorar a organização, clareza e manutenção do sistema.
+Eu dividi o trabalho em três partes: primeiro eu analisei o código para entender como ele funciona, depois melhorei a organização e os comentários para facilitar o entendimento, e por fim propus uma nova estrutura separando as responsabilidades, deixando o código mais organizado e seguindo boas práticas.
 
----
